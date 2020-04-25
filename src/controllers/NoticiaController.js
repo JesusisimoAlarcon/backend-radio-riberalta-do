@@ -10,6 +10,26 @@ class NoticiaController {
         res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor order by fecha desc'));
     }
 
+    async listRelacionadas(req, res) {
+        const { etiquetas } = req.params;
+
+        const array_etiquetas = etiquetas.split(',');
+        //console.log(array_etiquetas);
+        let sql = 'SELECT idnoticia,portada,pieportada,titulo,seccion,tipo,fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where'
+        array_etiquetas.map((eti, index) => {
+            if (index > 0) {
+                sql += ` or contenido like '%${eti}%'`
+            }
+            else {
+                sql += ` contenido like '%${eti}%'`
+            }
+        })
+        sql += 'order by fecha desc, prioridad desc limit 0,4'
+        //console.log(sql)
+        //res.json(sql)
+        res.json(await pool.query(sql));
+    }
+
     async listDetalleBySeccion(req, res) {
         res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where seccion = ? order by fecha desc', [req.params.seccion]));
     }
