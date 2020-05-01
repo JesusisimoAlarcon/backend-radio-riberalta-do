@@ -9,6 +9,7 @@ class Noticia {
 
     config() {
         this.noticia.get('/', controller.noticiaController.list);
+        this.noticia.get('/search/:busqueda', controller.noticiaController.listDetalleByBusqueda);
         this.noticia.get('/relacionadas/:id/:etiquetas', controller.noticiaController.listRelacionadas);
         this.noticia.get('/detalle', controller.noticiaController.listDetalle);
         this.noticia.get('/detalle/:seccion', controller.noticiaController.listDetalleBySeccion);

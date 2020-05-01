@@ -3,7 +3,7 @@ const path = require('path')
 class NoticiaController {
 
     async list(req, res) {
-        res.json(await pool.query('SELECT * FROM noticia'));
+        res.json(await pool.query('SELECT * FROM noticia order by fecha desc'));
     }
 
     async listDetalle(req, res) {
@@ -11,7 +11,8 @@ class NoticiaController {
     }
 
     async listRelacionadas(req, res) {
-        let sql = `SELECT idnoticia, portada, pieportada, titulo, seccion, tipo, fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
+        //let sql = `SELECT idnoticia, portada, pieportada, titulo, seccion, tipo, fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
+        let sql = `SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
         req.params.etiquetas.split(',').map((eti, index) => {
             if (index > 0)
                 sql += `or`
@@ -24,6 +25,11 @@ class NoticiaController {
 
     async listDetalleBySeccion(req, res) {
         res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where seccion = ? order by fecha desc', [req.params.seccion]));
+    }
+
+    async listDetalleByBusqueda(req, res) {
+        console.log(req.params.busqueda)
+        res.json(await pool.query(`SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where contenido like '%${req.params.busqueda}%' order by fecha desc`));
     }
 
     async getOne(req, res) {
