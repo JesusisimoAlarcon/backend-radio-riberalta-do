@@ -14,10 +14,10 @@ class UsuarioController {
 
         if (!await bcrypt.compare(req.params.password, user.password))
             return res.status(401).json({ auth: false, message: "Contraseña incorrecta, revice sus credenciales" })
-
-        const token = jwt.sign({ id: user.idusuario }, 'radioriberalta.com.bo', { expiresIn: 60 })
+            
         delete user.password;
-        res.status(200).json({ auth: true, message: "Usuario autenticado de forma correcta :)", token, user })
+        const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: process.env.EXPIRED })
+        res.status(200).json({ auth: true, message: "Usuario autenticado de forma correcta :)", token })
     }
 
     async getOne(req, res) {
