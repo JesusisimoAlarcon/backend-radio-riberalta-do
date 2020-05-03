@@ -10,11 +10,11 @@ class UsuarioController {
     async listByUsernamePassword(req, res) {
         const user = (await pool.query('SELECT idusuario, c.idconductor, rol, nombres, apellidos, correo, fotografia, password FROM usuario u inner join conductor c on u.idconductor = c.idconductor WHERE username = ?', [req.params.username]))[0];
         if (!user)
-            return res.status(404).json({ auth: false, message: "El usuario no existe" })
+            return res.json({ auth: false, message: "El usuario no existe" })
 
         if (!await bcrypt.compare(req.params.password, user.password))
-            return res.status(401).json({ auth: false, message: "Contraseña incorrecta, revice sus credenciales" })
-            
+            return res.json({ auth: false, message: "Contraseña incorrecta, revice sus credenciales" })
+
         delete user.password;
         const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: process.env.EXPIRED })
         res.status(200).json({ auth: true, message: "Usuario autenticado de forma correcta :)", token })
