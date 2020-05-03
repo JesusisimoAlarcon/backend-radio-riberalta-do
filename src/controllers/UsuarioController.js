@@ -6,7 +6,7 @@ class UsuarioController {
     }
 
     async listByUsernamePassword(req, res) {
-        res.json(await pool.query('SELECT * FROM usuario WHERE username = ? and password = ?', [req.params.username, req.params.password]));
+        res.json(await pool.query('SELECT * FROM usuario u inner join conductor c on u.idconductor = c.idconductor WHERE username = ? and password = ?', [req.params.username, req.params.password]));
     }
 
     async getOne(req, res) {
