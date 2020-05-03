@@ -1,4 +1,6 @@
 const pool = require('../database');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 class UsuarioController {
 
     async list(req, res) {
@@ -6,7 +8,16 @@ class UsuarioController {
     }
 
     async listByUsernamePassword(req, res) {
-        res.json(await pool.query('SELECT * FROM usuario u inner join conductor c on u.idconductor = c.idconductor WHERE username = ? and password = ?', [req.params.username, req.params.password]));
+        const user = (await pool.query('SELECT idusuario, c.idconductor, rol, nombres, apellidos, correo, fotografia, password FROM usuario u inner join conductor c on u.idconductor = c.idconductor WHERE username = ?', [req.params.username]))[0];
+        if (!user)
+            return res.status(404).json({ auth: false, message: "El usuario no existe" })
+
+        if (!await bcrypt.compare(req.params.password, user.password))
+            return res.status(401).json({ auth: false, message: "Contraseña incorrecta, revice sus credenciales" })
+
+        const token = jwt.sign({ id: user.idusuario }, 'radioriberalta.com.bo', { expiresIn: 60 })
+        delete user.password;
+        res.status(200).json({ auth: true, message: "Usuario autenticado de forma correcta :)", token, user })
     }
 
     async getOne(req, res) {
@@ -14,6 +25,8 @@ class UsuarioController {
     }
 
     async create(req, res) {
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
         res.json(await pool.query('INSERT INTO usuario SET ?', [req.body]));
     }
 
