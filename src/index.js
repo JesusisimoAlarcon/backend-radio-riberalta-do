@@ -49,6 +49,7 @@ class Servidor {
         this.app.use('/api/noticia', require('./routes/Noticia'));
         this.app.use('/api/infografia', require('./routes/Infografia'));
         this.app.use('/api/programacion', require('./routes/Programacion'));
+        this.app.use('/api/usuario', require('./routes/Usuario'));
     }
 
     iniciarServidor() {
