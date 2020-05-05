@@ -3,6 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 class UsuarioController {
 
+    async me(req, res) {
+        const user = req.user;
+        res.json({ user });
+    }
+
     async list(req, res) {
         res.json(await pool.query('SELECT * FROM usuario'));
     }
@@ -16,7 +21,7 @@ class UsuarioController {
             return res.json({ auth: false, message: "Contraseña incorrecta, revice sus credenciales" })
 
         delete user.password;
-        const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: process.env.EXPIRED })
+        const token = jwt.sign({ user }, process.env.SECRET, { expiresIn: 60 * 60 * 24 })
         res.status(200).json({ auth: true, message: "Usuario autenticado de forma correcta :)", token })
     }
 

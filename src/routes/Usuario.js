@@ -1,5 +1,6 @@
 const express = require('express');
 const controller = require('../controllers/UsuarioController');
+const auth = require('../libs/auth');
 class Usuario {
 
     constructor() {
@@ -8,12 +9,13 @@ class Usuario {
     }
 
     config() {
-        this.usuario.get('/', controller.usuarioController.list);
         this.usuario.get('/:username/:password', controller.usuarioController.listByUsernamePassword);
-        this.usuario.get('/:id', controller.usuarioController.getOne);
-        this.usuario.post('/', controller.usuarioController.create);
-        this.usuario.put('/:id', controller.usuarioController.update);
-        this.usuario.delete('/:id', controller.usuarioController.delete);
+        this.usuario.get('/me', auth, controller.usuarioController.me);
+        this.usuario.get('/', auth, controller.usuarioController.list);
+        this.usuario.get('/:id', auth, controller.usuarioController.getOne);
+        this.usuario.post('/', auth, controller.usuarioController.create);
+        this.usuario.put('/:id', auth, controller.usuarioController.update);
+        this.usuario.delete('/:id', auth, controller.usuarioController.delete);
     }
 }
 module.exports = new Usuario().usuario;
