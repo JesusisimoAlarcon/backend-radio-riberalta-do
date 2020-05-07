@@ -22,13 +22,13 @@ class ConductorController {
         const ruta_base = path.resolve('public', 'perfiles')
         const name = Date.now() + path.extname(archivo.name).toLowerCase();
         const ruta = path.join(ruta_base, name);
-        archivo.mv(ruta, err => {
+        archivo.mv(async (ruta, err) => {
             if (err)
                 res.status(500).json({ message: err })
             else {
                 //res.status(200).json({ imagen: name });
                 conductor.fotografia = name;
-                console.log(conductor)
+                console.log(conductor);
                 res.json(await pool.query('INSERT INTO conductor SET ?', [conductor]));
             }
         });
