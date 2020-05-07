@@ -19,7 +19,11 @@ class ConductorController {
 
 
         const archivo = req.files.imagen;
-        const ruta_base = path.resolve('public', 'perfiles')
+        const ruta_base = path.resolve('public', 'perfiles');
+        console.log(ruta_base);
+        console.log(archivo.name)
+
+        /*
         const name = Date.now() + path.extname(archivo.name).toLowerCase();
         const ruta = path.join(ruta_base, name);
         archivo.mv(ruta, async (err) => {
@@ -32,7 +36,7 @@ class ConductorController {
                 res.json(await pool.query('INSERT INTO conductor SET ?', [conductor]));
             }
         });
-
+*/
     }
 
 
