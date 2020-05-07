@@ -22,7 +22,7 @@ class ConductorController {
         const ruta_base = path.resolve('public', 'perfiles')
         const name = Date.now() + path.extname(archivo.name).toLowerCase();
         const ruta = path.join(ruta_base, name);
-        archivo.mv(async (ruta, err) => {
+        archivo.mv(ruta, async (err) => {
             if (err)
                 res.status(500).json({ message: err })
             else {
