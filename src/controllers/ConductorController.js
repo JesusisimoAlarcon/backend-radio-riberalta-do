@@ -10,19 +10,16 @@ class ConductorController {
     async getOne(req, res) {
         res.json(await pool.query('SELECT * FROM conductor where idconductor = ?', [req.params.id]));
     }
-    
+
+
+
+
     async create(req, res) {
         console.log(req.files.imagen);
         console.log(req.body.conductor);
         const conductor = JSON.parse(req.body.conductor);
-
-
-        const archivo = req.files.imagen[0];
+        const archivo = req.files.imagen;
         const ruta_base = path.resolve('public', 'perfiles');
-        console.log(ruta_base);
-        console.log(archivo.name)
-
-
         const name = Date.now() + path.extname(archivo.name).toLowerCase();
         const ruta = path.join(ruta_base, name);
         archivo.mv(ruta, async (err) => {
