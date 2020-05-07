@@ -14,7 +14,9 @@ class ConductorController {
 
     async upload_fotografia(req, res) {
         console.log(req.files.imagen);
-        console.log(req.body.conductor);
+        console.log(req.body.conductor[0]);
+        const conductor = req.body.conductor[0];
+        console.log(conductor)
         /*
                 const archivo = req.files.imagen;
                 const ruta_base = path.resolve('public', 'perfiles')
