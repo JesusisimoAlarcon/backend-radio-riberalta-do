@@ -1,6 +1,5 @@
 const express = require('express');
 const controller = require('../controllers/ConductorController');
-//const upload = require('../libs/storages');
 const auth = require('../libs/auth');
 class Conductor {
 

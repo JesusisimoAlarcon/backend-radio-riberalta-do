@@ -10,10 +10,6 @@ class ConductorController {
     async getOne(req, res) {
         res.json(await pool.query('SELECT * FROM conductor where idconductor = ?', [req.params.id]));
     }
-
-
-
-
     async create(req, res) {
         console.log(req.files.imagen);
         console.log(req.body.conductor);

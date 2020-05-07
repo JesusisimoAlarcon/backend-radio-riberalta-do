@@ -17,7 +17,6 @@ class Noticia {
         this.noticia.get('/detalle/autor/:id', controller.noticiaController.listDetalleByAutor);
         this.noticia.get('/:id', controller.noticiaController.getOne);
         this.noticia.post('/', auth, controller.noticiaController.create);
-        this.noticia.post('/portada', auth, controller.noticiaController.upload_portada);
         this.noticia.put('/:id', auth, controller.noticiaController.update);
         this.noticia.delete('/:id', auth, controller.noticiaController.delete);
     }
