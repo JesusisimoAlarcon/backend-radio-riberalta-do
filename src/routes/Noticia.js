@@ -13,6 +13,7 @@ class Noticia {
         this.noticia.get('/search/:busqueda', controller.noticiaController.listDetalleByBusqueda);
         this.noticia.get('/relacionadas/:id/:etiquetas', controller.noticiaController.listRelacionadas);
         this.noticia.get('/detalle', controller.noticiaController.listDetalle);
+        this.noticia.get('/detalle/:autor', controller.noticiaController.listDetalleByAutor);
         this.noticia.get('/detalle/:seccion', controller.noticiaController.listDetalleBySeccion);
         this.noticia.get('/:id', controller.noticiaController.getOne);
         this.noticia.post('/', auth, controller.noticiaController.create);

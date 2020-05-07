@@ -23,6 +23,10 @@ class NoticiaController {
         res.json(await pool.query(sql));
     }
 
+    async listDetalleByAutor(req, res) {
+        res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idconductor = ? order by fecha desc', [req.params.autor]));
+    }
+
     async listDetalleBySeccion(req, res) {
         res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where seccion = ? order by fecha desc', [req.params.seccion]));
     }
