@@ -1,6 +1,6 @@
 const pool = require('../database');
 const path = require('path')
-const bcrypt = require('bcryptjs')
+//const bcrypt = require('bcryptjs')
 class ConductorController {
 
     async list(req, res) {
