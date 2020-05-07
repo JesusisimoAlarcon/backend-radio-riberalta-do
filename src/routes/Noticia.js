@@ -14,7 +14,7 @@ class Noticia {
         this.noticia.get('/relacionadas/:id/:etiquetas', controller.noticiaController.listRelacionadas);
         this.noticia.get('/detalle', controller.noticiaController.listDetalle);
         this.noticia.get('/detalle/:seccion', controller.noticiaController.listDetalleBySeccion);
-        this.noticia.get('/autor/autor/:id', controller.noticiaController.listDetalleByAutor);
+        this.noticia.get('/detalle/autor/:id', controller.noticiaController.listDetalleByAutor);
         this.noticia.get('/:id', controller.noticiaController.getOne);
         this.noticia.post('/', auth, controller.noticiaController.create);
         this.noticia.post('/portada', auth, controller.noticiaController.upload_portada);
