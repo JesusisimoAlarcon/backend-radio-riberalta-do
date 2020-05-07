@@ -29,6 +29,9 @@ class Servidor {
         this.app.use(cors());
         this.app.use((req, res, next) => {
             res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+            res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
             next();
         });
     }
@@ -39,7 +42,6 @@ class Servidor {
 
     publico() {
         this.app.use('/api/static', express.static(path.resolve('public')));
-        //this.app.use('/static', express.static(path.join(__dirname, 'public')));
     }
 
     rutas() {
