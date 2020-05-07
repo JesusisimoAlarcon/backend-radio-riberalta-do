@@ -43,10 +43,7 @@ class NoticiaController {
     }
 
     async upload_portada(req, res) {
-
-        console.log(req.body)
         console.log(req.files.imagen);
-
         const archivo = req.files.imagen;
         const ruta_base = path.resolve('public', 'portadas')
         const name = Date.now() + path.extname(archivo.name).toLowerCase();
