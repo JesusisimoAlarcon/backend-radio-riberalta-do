@@ -27,21 +27,22 @@ class ConductorController {
                         res.status(200).json({ imagen: name });
                     }
                 });
-            }
-            */
-
-        async create(req, res) {
-            console.log(req.body)
-
-            res.json(await pool.query('INSERT INTO conductor SET ?', [req.body]));
-        }
-
-        async update(req, res) {
-            res.json(await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [req.body, req.params.id]));
-        }
-
-        async delete (req, res) {
-            res.json(await pool.query('DELETE FROM conductor WHERE idconductor = ?', [req.params.id]));
-        }
+                */
     }
-    exports.conductorController = new ConductorController();
+
+
+    async create(req, res) {
+        console.log(req.body);
+
+        res.json(await pool.query('INSERT INTO conductor SET ?', [req.body]));
+    }
+
+    async update(req, res) {
+        res.json(await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [req.body, req.params.id]));
+    }
+
+    async delete(req, res) {
+        res.json(await pool.query('DELETE FROM conductor WHERE idconductor = ?', [req.params.id]));
+    }
+}
+exports.conductorController = new ConductorController();
