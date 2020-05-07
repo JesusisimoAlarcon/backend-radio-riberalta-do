@@ -27,7 +27,7 @@ class Servidor {
         //this.app.use(bodyparser.json())
         this.app.use(fileupload());
         this.app.use(cors({
-            origin: 'localhost:3000'
+            origin: 'http://localhost:3000/'
         }));
         /*
         this.app.use((req, res, next) => {
