@@ -43,6 +43,8 @@ class NoticiaController {
     }
 
     async upload_portada(req, res) {
+
+        console.log(req.body)
         console.log(req.files.imagen);
 
         const archivo = req.files.imagen;
