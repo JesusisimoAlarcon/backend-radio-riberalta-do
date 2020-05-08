@@ -3,12 +3,11 @@ const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path')
 const fileupload = require('express-fileupload');
+const bodyparser = require('body-parser');
 require('dotenv').config();
 class Servidor {
 
     constructor() {
-
-
         this.app = express();
         this.configuracion();
         this.middlewares();
@@ -25,7 +24,7 @@ class Servidor {
         this.app.use(morgan('dev'));
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(express.json());
-        //this.app.use(bodyparser.urlencoded({ extended: false }))
+        this.app.use(bodyparser.urlencoded({ extended: false }))
         this.app.use(bodyparser.json())
         this.app.use(fileupload());
         this.app.use(cors({
