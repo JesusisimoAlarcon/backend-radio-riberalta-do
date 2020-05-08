@@ -27,29 +27,20 @@ class Servidor {
         this.app.use(bodyparser.urlencoded({ extended: false }))
         this.app.use(bodyparser.json())
         this.app.use(fileupload());
-        this.app.use(cors({
-            origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000', 'https://www.radioriberalta.com.bo','https://radioriberalta.com.bo']
-/*
-                function (origin, callback) {
-                    if (['https://admin.radioriberalta.com.bo', 'http://localhost:3000'].indexOf(origin) !== -1 || !origin) {
-                        callback(null, true)
-                    } else {
-                        callback(new Error('Not allowed by CORS'))
-                    }
-                }
-*/
-        }));
         /*
-                this.app.use((req, res, next) => {
-                    res.header('Access-Control-Allow-Origin', '*');
-                    
-                    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-                    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-                    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-                    
-                    next();
-                });
-        */
+        this.app.use(cors({
+            origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000', 'https://www.radioriberalta.com.bo', 'https://radioriberalta.com.bo']
+        }));
+*/
+        this.app.use((req, res, next) => {
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+            res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+            next();
+        });
+        this.app.use(cors());
+
     }
 
     variables_globales() {
