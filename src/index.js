@@ -7,16 +7,8 @@ require('dotenv').config();
 class Servidor {
 
     constructor() {
-        this.whitelist = ['https://admin.radioriberalta.com.bo', 'http://localhost:3000']
-        this.corsOptions = {
-            origin: function (origin, callback) {
-                if (this.whitelist.indexOf(origin) !== -1) {
-                    callback(null, true)
-                } else {
-                    callback(new Error('Not allowed by CORS'))
-                }
-            }
-        }
+        
+        
         this.app = express();
         this.configuracion();
         this.middlewares();
@@ -36,7 +28,15 @@ class Servidor {
         //this.app.use(bodyparser.urlencoded({ extended: false }))
         //this.app.use(bodyparser.json())
         this.app.use(fileupload());
-        this.app.use(cors(this.corsOptions));
+        this.app.use(cors({
+            origin: function (origin, callback) {
+                if (['https://admin.radioriberalta.com.bo', 'http://localhost:3000'].indexOf(origin) !== -1 || !origin) {
+                    callback(null, true)
+                } else {
+                    callback(new Error('Not allowed by CORS'))
+                }
+            }
+        }));
         /*
                 this.app.use((req, res, next) => {
                     res.header('Access-Control-Allow-Origin', '*');
