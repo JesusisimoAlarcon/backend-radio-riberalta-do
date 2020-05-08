@@ -61,7 +61,6 @@ class Servidor {
     }
 
     rutas() {
-        this.app.options(cors());
         this.app.use('/api/seccion', require('./routes/Seccion'));
         this.app.use('/api/conductor', require('./routes/Conductor'));
         this.app.use('/api/programa', require('./routes/Programa'));
