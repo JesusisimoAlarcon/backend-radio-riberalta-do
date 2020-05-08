@@ -26,7 +26,7 @@ class Servidor {
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(express.json());
         //this.app.use(bodyparser.urlencoded({ extended: false }))
-        //this.app.use(bodyparser.json())
+        this.app.use(bodyparser.json())
         this.app.use(fileupload());
         this.app.use(cors({
             origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000', 'https://www.radioriberalta.com.bo','https://radioriberalta.com.bo']
