@@ -29,7 +29,7 @@ class Servidor {
         //this.app.use(bodyparser.json())
         this.app.use(fileupload());
         this.app.use(cors({
-            origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000', 'htts://www.radioriberalta.com.bo','http://radioriberalta.com.bo']
+            origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000', 'https://www.radioriberalta.com.bo','https://radioriberalta.com.bo']
 /*
                 function (origin, callback) {
                     if (['https://admin.radioriberalta.com.bo', 'http://localhost:3000'].indexOf(origin) !== -1 || !origin) {
