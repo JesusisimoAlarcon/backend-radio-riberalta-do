@@ -7,8 +7,8 @@ require('dotenv').config();
 class Servidor {
 
     constructor() {
-        
-        
+
+
         this.app = express();
         this.configuracion();
         this.middlewares();
@@ -29,13 +29,16 @@ class Servidor {
         //this.app.use(bodyparser.json())
         this.app.use(fileupload());
         this.app.use(cors({
-            origin: function (origin, callback) {
-                if (['https://admin.radioriberalta.com.bo', 'http://localhost:3000'].indexOf(origin) !== -1 || !origin) {
-                    callback(null, true)
-                } else {
-                    callback(new Error('Not allowed by CORS'))
+            origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000']
+/*
+                function (origin, callback) {
+                    if (['https://admin.radioriberalta.com.bo', 'http://localhost:3000'].indexOf(origin) !== -1 || !origin) {
+                        callback(null, true)
+                    } else {
+                        callback(new Error('Not allowed by CORS'))
+                    }
                 }
-            }
+*/
         }));
         /*
                 this.app.use((req, res, next) => {
@@ -59,7 +62,7 @@ class Servidor {
     }
 
     rutas() {
-
+        this.app.options(cors());
         this.app.use('/api/seccion', require('./routes/Seccion'));
         this.app.use('/api/conductor', require('./routes/Conductor'));
         this.app.use('/api/programa', require('./routes/Programa'));
