@@ -54,10 +54,10 @@ class NoticiaController {
         let recurso = req.files.recurso;
         let name_recurso = '';
         if (!urlinfografia && tipoinfografia !== 'image' && recurso) {
-            name_recurso = await upload(recurso, tipoinfografia);
+            name_recurso = upload(recurso, tipoinfografia);
         } else if (tipoinfografia === 'image') {
             await req.files.recurso.map(async (recursito) => {
-                const nameitem = await upload(recursito, tipoinfografia);
+                const nameitem = upload(recursito, tipoinfografia);
                 const infografia = {
                     tipo: tipoinfografia,
                     infografia: nameitem,
@@ -82,7 +82,7 @@ class NoticiaController {
             console.log(newinfografia);
 
         }
-        await res.json({ ok: true });
+        await res.setStatus(200).end();
     }
     /*
     async create(req, res) {
