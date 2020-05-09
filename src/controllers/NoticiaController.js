@@ -42,39 +42,22 @@ class NoticiaController {
         res.json(noticias);
     }
 
-
-
     async create(req, res) {
-        console.log(req.files.portada);
-        console.log(req.body.noticia);
         const noticia = JSON.parse(req.body.noticia);
         const archivo = req.files.portada;
         const name = await upload(archivo, 'portada');
         noticia.portada = name;
-        console.log(noticia);
         const newnoticia = await pool.query('INSERT INTO noticia SET ?', [noticia]);
-        console.log(newnoticia);
         const idnoticia = newnoticia.insertId;
         const tipoinfografia = req.body.tipoinfografia;
         const urlinfografia = req.body.urlinfografia;
         let recurso = req.files.recurso;
         let name_recurso = '';
-        let infotitulo = '';
-        let infopie = '';
-        console.log(recurso);
-        console.log(tipoinfografia);
-        console.log(urlinfografia);
         if (!urlinfografia && tipoinfografia !== 'image' && recurso) {
             name_recurso = await upload(recurso, tipoinfografia);
         } else if (tipoinfografia === 'image') {
             await req.files.recurso.map(async (recursito) => {
                 const nameitem = await upload(recursito, tipoinfografia);
-                console.log(nameitem);
-                name_recurso = name_recurso + nameitem + ','
-                infotitulo = infotitulo + recursito.name + ',';
-                infopie = infopie + recursito.size + ',';
-                console.log(infotitulo);
-                console.log(infopie);
                 const infografia = {
                     tipo: tipoinfografia,
                     infografia: nameitem,
@@ -85,7 +68,7 @@ class NoticiaController {
                 const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
                 console.log(newinfografia);
             });
-            await res.json({ ok: true });
+
         }
         if (tipoinfografia !== 'image' && recurso) {
             const infografia = {
@@ -97,8 +80,9 @@ class NoticiaController {
             }
             const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
             console.log(newinfografia);
-            await res.json({ ok: true });
+
         }
+        await res.json({ ok: true });
     }
     /*
     async create(req, res) {
