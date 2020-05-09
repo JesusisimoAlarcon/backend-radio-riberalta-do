@@ -1,5 +1,6 @@
 const pool = require('../database');
-const path = require('path')
+const path = require('path');
+const upload = require('../libs/upload_archivo');
 class NoticiaController {
 
     async list(req, res) {
@@ -41,8 +42,64 @@ class NoticiaController {
         res.json(noticias);
     }
 
-    
 
+
+    async create(req, res) {
+        console.log(req.files.portada);
+        console.log(req.body.noticia);
+        const noticia = JSON.parse(req.body.noticia);
+        const archivo = req.files.portada;
+        const name = await upload(archivo, 'portada');
+        noticia.portada = name;
+        console.log(noticia);
+        const newnoticia = await pool.query('INSERT INTO noticia SET ?', [noticia]);
+        console.log(newnoticia);
+        const idnoticia = newnoticia.insertId;
+        const tipoinfografia = req.body.tipoinfografia;
+        const urlinfografia = req.body.urlinfografia;
+        let recurso = req.files.recurso;
+        let name_recurso = '';
+        let infotitulo = '';
+        let infopie = '';
+        console.log(recurso);
+        console.log(tipoinfografia);
+        console.log(urlinfografia);
+        if (!urlinfografia && tipoinfografia !== 'image' && recurso) {
+            name_recurso = await upload(recurso, tipoinfografia);
+        } else if (tipoinfografia === 'image') {
+            await req.files.recurso.map(async (recursito) => {
+                const nameitem = await upload(recursito, tipoinfografia);
+                console.log(nameitem);
+                name_recurso = name_recurso + nameitem + ','
+                infotitulo = infotitulo + recursito.name + ',';
+                infopie = infopie + recursito.size + ',';
+                console.log(infotitulo);
+                console.log(infopie);
+                const infografia = {
+                    tipo: tipoinfografia,
+                    infografia: nameitem,
+                    infotitulo: recursito.name,
+                    infopie: recursito.size,
+                    idnoticia: idnoticia
+                }
+                const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
+                console.log(newinfografia)
+            })
+        }
+        if (tipoinfografia !== 'image' && recurso) {
+            const infografia = {
+                tipo: urlinfografia ? 'video_url' : tipoinfografia,
+                infografia: urlinfografia ? urlinfografia : name_recurso,
+                infotitulo: tipoinfografia === 'image' ? infotitulo : recurso ? recurso.name : '',
+                infopie: tipoinfografia === 'image' ? infopie : recurso ? recurso.size + '' : '',
+                idnoticia: idnoticia
+            }
+            const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
+            console.log(newinfografia);
+        }
+        res.json({ ok: true });
+    }
+    /*
     async create(req, res) {
         console.log(req.files.imagen);
         console.log(req.body.noticia);
@@ -64,7 +121,7 @@ class NoticiaController {
             }
         });
     }
-
+    */
     async update(req, res) {
         res.json(await pool.query('UPDATE noticia SET ? WHERE idnoticia = ?', [req.body, req.params.id]));
     }
