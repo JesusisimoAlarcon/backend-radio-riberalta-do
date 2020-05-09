@@ -83,8 +83,9 @@ class NoticiaController {
                     idnoticia: idnoticia
                 }
                 const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
-                console.log(newinfografia)
-            })
+                console.log(newinfografia);
+            });
+            await res.json({ ok: true });
         }
         if (tipoinfografia !== 'image' && recurso) {
             const infografia = {
@@ -96,8 +97,8 @@ class NoticiaController {
             }
             const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
             console.log(newinfografia);
+            await res.json({ ok: true });
         }
-        res.json({ ok: true });
     }
     /*
     async create(req, res) {
