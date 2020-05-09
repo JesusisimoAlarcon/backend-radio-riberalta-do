@@ -80,9 +80,8 @@ class NoticiaController {
             }
             const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
             console.log(newinfografia);
-
         }
-        await res.setStatus(200).end();
+        res.status(200).end();
     }
     /*
     async create(req, res) {
