@@ -45,6 +45,42 @@ class NoticiaController {
     async create(req, res) {
         const noticia = JSON.parse(req.body.noticia);
         const archivo = req.files.portada;
+        const recurso = req.files.recurso;
+        const tipoinfografia = req.body.tipoinfografia;
+        const urlinfografia = req.body.urlinfografia;
+        const portada = upload(archivo, 'portada');
+        noticia.portada = portada;
+        noticia.infotipo = urlinfografia ? 'video_url' : tipoinfografia;
+        console.log('inicio de la subida')
+        let name = '';
+        let titulo = '';
+        let sizes = '';
+        if (Array.isArray(recurso)) {
+            recurso.forEach(recursito => {
+                name = name + upload(recursito, tipoinfografia) + ',';
+                titulo = titulo + recursito.name + ',';
+                sizes = sizes + recursito.size + ',';
+            })
+        }
+        else if (recurso && (tipoinfografia !== 'nota' || !urlinfografia)) {
+            name = upload(recurso, tipoinfografia);
+            titulo = recurso.name;
+            sizes = recurso.size;
+        }
+        //console.log(name);
+        noticia.infografia = recurso ? name : urlinfografia;
+        noticia.infonombre = titulo;
+        noticia.infosize = sizes;
+        console.log(noticia);
+        const newnoticia = await pool.query('INSERT INTO noticia SET ?', [noticia]);
+        console.log('finalice la subida')
+        await res.json({ ok: true, newnoticia })
+    }
+
+    /*
+    async create(req, res) {
+        const noticia = JSON.parse(req.body.noticia);
+        const archivo = req.files.portada;
         const name = await upload(archivo, 'portada');
         noticia.portada = name;
         const newnoticia = await pool.query('INSERT INTO noticia SET ?', [noticia]);
@@ -81,9 +117,9 @@ class NoticiaController {
             const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
             console.log(newinfografia);
         }
-        res.status(200).json({ ok: true });
+        await res.status(200).json({ ok: true });
     }
-    /*
+    
     async create(req, res) {
         console.log(req.files.imagen);
         console.log(req.body.noticia);
