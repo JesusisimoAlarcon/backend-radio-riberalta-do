@@ -57,7 +57,7 @@ class NoticiaController {
             name_recurso = upload(recurso, tipoinfografia);
         } else if (tipoinfografia === 'image') {
             await req.files.recurso.map(async (recursito) => {
-                const nameitem = upload(recursito, tipoinfografia);
+                const nameitem = await upload(recursito, tipoinfografia);
                 const infografia = {
                     tipo: tipoinfografia,
                     infografia: nameitem,
