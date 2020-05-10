@@ -32,6 +32,7 @@ class Servidor {
             origin: ['https://admin.radioriberalta.com.bo', 'http://localhost:3000', 'https://www.radioriberalta.com.bo', 'https://radioriberalta.com.bo']
         }));
 */
+/*
         this.app.use((req, res, next) => {
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -39,6 +40,7 @@ class Servidor {
             res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
             next();
         });
+        */
         this.app.use(cors());
 
     }
