@@ -1,6 +1,6 @@
 const pool = require('../database');
 const path = require('path');
-//const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 const upload = require('../libs/upload_archivo');
 class ConductorController {
 
@@ -42,11 +42,14 @@ class ConductorController {
         }
         console.log(req.body)
         console.log(conductor)
-        if (req.body.user_update)
-            await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username }, conductor.idusuario]);
-
-
-        res.json(await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id]));
+        if (req.body.user_update) {
+            const salt = await bcrypt.genSalt(10);
+            const password = await bcrypt.hash(req.body.password, salt);
+            await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username, password }, conductor.idusuario]);
+        }
+        const resp = await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id])
+        console.log(resp)
+        res.json({ ok: resp.affectedRows });
     }
 
     async delete(req, res) {
