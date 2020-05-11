@@ -43,7 +43,7 @@ class ConductorController {
             username: conductor.username
         }
         console.log(usuario)
-        await restore_auth(req.body.password, usuario);
+        restore_auth(req.body.password, usuario);
         /*
         const salt = await bcrypt.genSalt(10);
         const password = await bcrypt.hash(req.body.password, salt);
