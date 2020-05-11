@@ -13,7 +13,7 @@ class UsuarioController {
     }
 
     async listByUsernamePassword(req, res) {
-        const user = (await pool.query('SELECT idusuario, c.idconductor, rol, nombres, apellidos, correo, fotografia, estado password FROM usuario u inner join conductor c on u.idconductor = c.idconductor WHERE username = ?', [req.params.username]))[0];
+        const user = (await pool.query('SELECT idusuario, c.idconductor, rol, nombres, apellidos, correo, fotografia, estado, password FROM usuario u inner join conductor c on u.idconductor = c.idconductor WHERE username = ?', [req.params.username]))[0];
         if (!user)
             return res.json({ auth: false, message: "El usuario no existe" })
 
