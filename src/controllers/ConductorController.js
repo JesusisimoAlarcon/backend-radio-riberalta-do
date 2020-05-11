@@ -1,7 +1,6 @@
 const pool = require('../database');
-const path = require('path');
-const bcrypt = require('bcryptjs');
 const upload = require('../libs/upload_archivo');
+const restore_auth = require('../libs/restore_auth');
 class ConductorController {
 
     async list(req, res) {
@@ -31,29 +30,25 @@ class ConductorController {
     }
 
     async update(req, res) {
-        console.log(req.body.conductor);
         const conductor = JSON.parse(req.body.conductor);
-        console.log(req.files)
         if (req.files) {
             console.log(req.files.imagen);
             const archivo = req.files.imagen;
             const perfil = upload(archivo, 'perfiles');
             conductor.fotografia = perfil;
         }
-        console.log(req.body)
-        console.log(conductor)
-        console.log(req.body.user_update)
         if (req.body.user_update === 'true') {
-            console.log('si')
-        }
-        else {
-            console.log('no')
-        }
-        if (req.body.user_update === 'true') {
+            const usuario = {
+                idusuario: conductor.idusuario,
+                username: conductor.username
+            }
+            await restore_auth(req.body.password, usuario);
+            /*
             const salt = await bcrypt.genSalt(10);
             const password = await bcrypt.hash(req.body.password, salt);
             const resp1 = await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username, password }, conductor.idusuario]);
             console.log(resp1)
+            */
             delete conductor.idusuario;
             delete conductor.username;
         }
