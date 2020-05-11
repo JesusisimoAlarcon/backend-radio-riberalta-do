@@ -16,7 +16,8 @@ class ConductorController {
         console.log(req.body.conductor);
         const conductor = JSON.parse(req.body.conductor);
         let perfil = '';
-        if (req.files.imagen) {
+        console.log(req.files)
+        if (req.files) {
             console.log(req.files.imagen);
             const archivo = req.files.imagen;
             perfil = upload(archivo, 'perfiles');
