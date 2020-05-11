@@ -42,7 +42,7 @@ class ConductorController {
         }
         console.log(req.body)
         console.log(conductor)
-        if (req.body.user_update === true) {
+        if (req.body.user_update === 'true') {
             const salt = await bcrypt.genSalt(10);
             const password = await bcrypt.hash(req.body.password, salt);
             const resp1 = await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username, password }, conductor.idusuario]);
