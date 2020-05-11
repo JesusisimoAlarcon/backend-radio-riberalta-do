@@ -43,10 +43,10 @@ class ConductorController {
         console.log(req.body)
         console.log(conductor)
         console.log(req.body.user_update)
-        if(req.body.user_update === 'true'){
+        if (req.body.user_update === 'true') {
             console.log('si')
         }
-        else{
+        else {
             console.log('no')
         }
         if (req.body.user_update === 'true') {
@@ -56,16 +56,9 @@ class ConductorController {
             console.log(resp1)
             delete conductor.idusuario;
             delete conductor.username;
-            const resp = await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id])
-            console.log(resp)
-            res.json({ ok: await resp.affectedRows });
         }
-        else {
-            const resp = await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id])
-            console.log(resp)
-            res.json({ ok: await resp.affectedRows });
-        }
-
+        await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id])
+        res.json({ ok: true });
     }
 
     async delete(req, res) {
