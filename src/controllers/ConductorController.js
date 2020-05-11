@@ -31,7 +31,22 @@ class ConductorController {
     }
 
     async update(req, res) {
-        res.json(await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [req.body, req.params.id]));
+        console.log(req.body.conductor);
+        const conductor = JSON.parse(req.body.conductor);
+        console.log(req.files)
+        if (req.files) {
+            console.log(req.files.imagen);
+            const archivo = req.files.imagen;
+            const perfil = upload(archivo, 'perfiles');
+            conductor.fotografia = perfil;
+        }
+        console.log(req.body)
+        console.log(conductor)
+        if (req.body.user_update)
+            await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username }, conductor.idusuario]);
+
+
+        res.json(await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id]));
     }
 
     async delete(req, res) {
