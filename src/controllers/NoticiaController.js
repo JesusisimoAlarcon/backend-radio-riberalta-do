@@ -67,7 +67,6 @@ class NoticiaController {
             titulo = recurso.name;
             sizes = recurso.size;
         }
-        //console.log(name);
         noticia.infografia = recurso ? name : urlinfografia;
         noticia.infonombre = titulo;
         noticia.infosize = sizes;
@@ -77,71 +76,6 @@ class NoticiaController {
         await res.json({ ok: true, newnoticia })
     }
 
-    /*
-    async create(req, res) {
-        const noticia = JSON.parse(req.body.noticia);
-        const archivo = req.files.portada;
-        const name = await upload(archivo, 'portada');
-        noticia.portada = name;
-        const newnoticia = await pool.query('INSERT INTO noticia SET ?', [noticia]);
-        const idnoticia = newnoticia.insertId;
-        const tipoinfografia = req.body.tipoinfografia;
-        const urlinfografia = req.body.urlinfografia;
-        let recurso = req.files.recurso;
-        let name_recurso = '';
-        if (!urlinfografia && tipoinfografia !== 'image' && recurso) {
-            name_recurso = upload(recurso, tipoinfografia);
-        } else if (tipoinfografia === 'image') {
-            await req.files.recurso.map(async (recursito) => {
-                const nameitem = await upload(recursito, tipoinfografia);
-                const infografia = {
-                    tipo: tipoinfografia,
-                    infografia: nameitem,
-                    infotitulo: recursito.name,
-                    infopie: recursito.size,
-                    idnoticia: idnoticia
-                }
-                const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
-                console.log(newinfografia);
-            });
-
-        }
-        if (tipoinfografia !== 'image' && recurso) {
-            const infografia = {
-                tipo: urlinfografia ? 'video_url' : tipoinfografia,
-                infografia: urlinfografia ? urlinfografia : name_recurso,
-                infotitulo: tipoinfografia === 'image' ? infotitulo : recurso ? recurso.name : '',
-                infopie: tipoinfografia === 'image' ? infopie : recurso ? recurso.size + '' : '',
-                idnoticia: idnoticia
-            }
-            const newinfografia = await pool.query('INSERT INTO infografia SET ?', [infografia]);
-            console.log(newinfografia);
-        }
-        await res.status(200).json({ ok: true });
-    }
-    
-    async create(req, res) {
-        console.log(req.files.imagen);
-        console.log(req.body.noticia);
-        const noticia = JSON.parse(req.body.noticia);
-        const archivo = req.files.imagen;
-        const ruta_base = path.resolve('public', 'portadas');
-        const name = Date.now() + path.extname(archivo.name).toLowerCase();
-        const ruta = path.join(ruta_base, name);
-        console.log(ruta_base)
-        console.log(ruta)
-        console.log(name)
-        archivo.mv(ruta, async (err) => {
-            if (err)
-                res.status(500).json({ message: err })
-            else {
-                noticia.portada = name;
-                console.log(noticia);
-                res.json(await pool.query('INSERT INTO noticia SET ?', [noticia]));
-            }
-        });
-    }
-    */
     async update(req, res) {
         res.json(await pool.query('UPDATE noticia SET ? WHERE idnoticia = ?', [req.body, req.params.id]));
     }

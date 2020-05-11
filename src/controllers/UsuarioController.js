@@ -36,7 +36,6 @@ class UsuarioController {
     }
 
     async update(req, res) {
-        console.log('iniciando')
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
         res.json(await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [req.body, req.params.id]));

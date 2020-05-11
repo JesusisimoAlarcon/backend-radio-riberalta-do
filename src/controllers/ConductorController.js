@@ -1,6 +1,5 @@
 const pool = require('../database');
 const upload = require('../libs/upload_archivo');
-//const restore_auth = require('../libs/restore_auth');
 class ConductorController {
 
     async list(req, res) {
@@ -12,7 +11,7 @@ class ConductorController {
     }
 
     async getOneUser(req, res) {
-        res.json(await pool.query('SELECT c.*, u.idusuario, u.username FROM conductor c inner join usuario u on c.idconductor = u.idconductor where c.idconductor = ?', [req.params.id]));
+        res.json(await pool.query('SELECT c.*, u.idusuario, u.username, u.confirmado, u.estado FROM conductor c inner join usuario u on c.idconductor = u.idconductor where c.idconductor = ?', [req.params.id]));
     }
 
     async create(req, res) {
