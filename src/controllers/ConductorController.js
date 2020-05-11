@@ -42,6 +42,13 @@ class ConductorController {
         }
         console.log(req.body)
         console.log(conductor)
+        console.log(req.body.user_update)
+        if(req.body.user_update === 'true'){
+            console.log('si')
+        }
+        else{
+            console.log('no')
+        }
         if (req.body.user_update === 'true') {
             const salt = await bcrypt.genSalt(10);
             const password = await bcrypt.hash(req.body.password, salt);
