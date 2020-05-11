@@ -57,6 +57,8 @@ class ConductorController {
             delete conductor.idusuario;
             delete conductor.username;
         }
+        console.log(conductor)
+        console.log(req.params.id)
         await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id])
         res.json({ ok: true });
     }
