@@ -37,21 +37,22 @@ class ConductorController {
             const perfil = upload(archivo, 'perfiles');
             conductor.fotografia = perfil;
         }
-        if (req.body.user_update === 'true') {
-            const usuario = {
-                idusuario: conductor.idusuario,
-                username: conductor.username
-            }
-            await restore_auth(req.body.password, usuario);
-            /*
-            const salt = await bcrypt.genSalt(10);
-            const password = await bcrypt.hash(req.body.password, salt);
-            const resp1 = await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username, password }, conductor.idusuario]);
-            console.log(resp1)
-            */
-            delete conductor.idusuario;
-            delete conductor.username;
+        //if (req.body.user_update === 'true') {
+        const usuario = {
+            idusuario: conductor.idusuario,
+            username: conductor.username
         }
+        console.log(usuario)
+        await restore_auth(req.body.password, usuario);
+        /*
+        const salt = await bcrypt.genSalt(10);
+        const password = await bcrypt.hash(req.body.password, salt);
+        const resp1 = await pool.query('UPDATE usuario SET ? WHERE idusuario = ?', [{ username: conductor.username, password }, conductor.idusuario]);
+        console.log(resp1)
+        */
+        delete conductor.idusuario;
+        delete conductor.username;
+        //}
         console.log(conductor)
         console.log(req.params.id)
         await pool.query('UPDATE conductor SET ? WHERE idconductor = ?', [conductor, req.params.id])
