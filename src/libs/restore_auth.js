@@ -1,3 +1,4 @@
+const pool = require('../database');
 const bcrypt = require('bcryptjs');
 async function actualizar_contrasena(password, usuario) {
     const salt = await bcrypt.genSalt(10);
