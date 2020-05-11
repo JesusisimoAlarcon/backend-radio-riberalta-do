@@ -9,7 +9,7 @@ class UsuarioController {
     }
 
     async list(req, res) {
-        res.json(await pool.query('SELECT * FROM usuario'));
+        res.json(await pool.query('SELECT idusuario, username, rol, nombres, apellidos, fotografia FROM usuario u inner join conductor c on u.idconductor = c.idconductor'));
     }
 
     async listByUsernamePassword(req, res) {
