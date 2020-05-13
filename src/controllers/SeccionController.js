@@ -5,6 +5,10 @@ class SeccionController {
         res.json(await pool.query('SELECT * FROM seccion'));
     }
 
+    async listByNoticia(req, res) {
+        res.json(await pool.query('SELECT s.idseccion, s.seccion, s.icono, (select count(*) from noticia where idseccion = s.idseccion) as noticias FROM seccion s'));
+    }
+
     async listNavItem(req, res) {
         const list = await pool.query('SELECT * FROM seccion')
         const navs = [];

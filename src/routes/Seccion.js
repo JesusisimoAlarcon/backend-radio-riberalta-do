@@ -10,7 +10,7 @@ class Seccion {
 
     config() {
         this.seccion.get('/navs', controller.seccionController.listNavItem);
-
+        this.seccion.get('/detalle', controller.seccionController.listByNoticia);
         this.seccion.get('/', controller.seccionController.list);
         this.seccion.get('/:id', controller.seccionController.getOne);
         this.seccion.post('/', auth, controller.seccionController.create);
