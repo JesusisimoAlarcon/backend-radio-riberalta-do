@@ -17,7 +17,7 @@ class SeccionController {
                 id: item.idseccion,
                 icon: item.icono,
                 label: item.seccion,
-                to: '#/' + item.seccion.toLowerCase()
+                to: '/' + item.seccion.toLowerCase()
             }
             navs.push(nav);
         })
