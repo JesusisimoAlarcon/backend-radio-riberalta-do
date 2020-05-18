@@ -16,6 +16,11 @@ class NoticiaController {
         res.json(resp);
     }
 
+    async listDetalleSeccionByLimit(req, res) {
+        const resp = await pool.query(`SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where s.seccion like '%${req.query.seccion}%' order by fecha desc limit ?, ?`, [((req.query.page - 1) * req.query.limit), (Number)(req.query.limit)])
+        res.json(resp);
+    }
+
     async listRelacionadas(req, res) {
         //let sql = `SELECT idnoticia, portada, pieportada, titulo, seccion, tipo, fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
         let sql = `SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`

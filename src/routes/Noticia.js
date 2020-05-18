@@ -14,6 +14,7 @@ class Noticia {
         this.noticia.get('/relacionadas/:id/:etiquetas', controller.noticiaController.listRelacionadas);
         this.noticia.get('/detalle', controller.noticiaController.listDetalle);
         this.noticia.get('/detalle/portada', controller.noticiaController.listDetalleByLimit);
+        this.noticia.get('/detalle/seccion', controller.noticiaController.listDetalleSeccionByLimit);
         this.noticia.get('/detalle/:seccion', controller.noticiaController.listDetalleBySeccion);
         this.noticia.get('/detalle/autor/:id', controller.noticiaController.listDetalleByAutor);
         this.noticia.get('/:id', controller.noticiaController.getOne);
