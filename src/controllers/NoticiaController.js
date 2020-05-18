@@ -8,12 +8,17 @@ class NoticiaController {
     }
 
     async listDetalle(req, res) {
-        res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor order by fecha desc'));
+        res.json(await pool.query('SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor order by fecha desc'));
+    }
+
+    async listDetalleByLimit(req, res) {
+        const resp = await pool.query('SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor order by fecha desc limit ?, ?', [((req.query.page - 1) * req.query.limit), (Number)(req.query.limit)])
+        res.json(resp);
     }
 
     async listRelacionadas(req, res) {
         //let sql = `SELECT idnoticia, portada, pieportada, titulo, seccion, tipo, fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
-        let sql = `SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
+        let sql = `SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where idnoticia <> '${req.params.id}' and (`
         req.params.etiquetas.split(',').map((eti, index) => {
             if (index > 0)
                 sql += `or`
@@ -29,12 +34,12 @@ class NoticiaController {
     }
 
     async listDetalleBySeccion(req, res) {
-        res.json(await pool.query('SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where seccion = ? order by fecha desc', [req.params.seccion]));
+        res.json(await pool.query('SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where seccion = ? order by fecha desc', [req.params.seccion]));
     }
 
     async listDetalleByBusqueda(req, res) {
         console.log(req.params.busqueda)
-        res.json(await pool.query(`SELECT * FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where contenido like '%${req.params.busqueda}%' order by fecha desc`));
+        res.json(await pool.query(`SELECT n.idnoticia, n.portada, n.titulo, n.subtitulo, s.seccion, n.tipo, n.fecha FROM noticia n inner join seccion s on n.idseccion = s.idseccion inner join conductor c on n.idconductor = c.idconductor where contenido like '%${req.params.busqueda}%' order by fecha desc`));
     }
 
     async getOne(req, res) {
