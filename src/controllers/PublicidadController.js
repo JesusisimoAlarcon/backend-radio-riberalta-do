@@ -13,6 +13,17 @@ class PublicidadController {
         res.json(await pool.query('INSERT INTO publicidad SET ?', [req.body]));
     }
 
+    async create(req, res) {
+        console.log(req.body.publicidad);
+        const publicidad = JSON.parse(req.body.publicidad);
+        console.log(req.files)
+        console.log(req.files.imagen);
+        const archivo = req.files.imagen;
+        const name = upload(archivo, 'publicidad');
+        publicidad.publicidad = name;
+        res.json(await pool.query('INSERT INTO publicidad SET ?', [publicidad]));
+    }
+
     async update(req, res) {
         res.json(await pool.query('UPDATE publicidad SET ? WHERE idpublicidad = ?', [req.body, req.params.id]));
     }
