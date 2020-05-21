@@ -1,4 +1,5 @@
 const pool = require('../database');
+const upload = require('../libs/upload_archivo');
 class PublicidadController {
 
     async list(req, res) {
