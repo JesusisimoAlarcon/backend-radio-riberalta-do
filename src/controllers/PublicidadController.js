@@ -11,14 +11,10 @@ class PublicidadController {
     }
 
     async create(req, res) {
-        console.log(req.body.publicidad);
-        const publicidad = JSON.parse(req.body.publicidad);
-        console.log(req.files)
-        console.log(req.files.imagen);
-        const archivo = req.files.imagen;
-        const name = upload(archivo, 'publicidad');
-        publicidad.publicidad = name;
-        res.json(await pool.query('INSERT INTO publicidad SET ?', [publicidad]));
+        const registro = JSON.parse(req.body.publicidad);
+        registro.publicidad = upload(req.files.imagen, 'publicidad');
+        console.log(registro)
+        res.json(await pool.query('INSERT INTO publicidad SET ?', [registro]));
     }
 
     async update(req, res) {
