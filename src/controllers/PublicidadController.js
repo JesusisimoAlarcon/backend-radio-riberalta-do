@@ -10,10 +10,6 @@ class PublicidadController {
     }
 
     async create(req, res) {
-        res.json(await pool.query('INSERT INTO publicidad SET ?', [req.body]));
-    }
-
-    async create(req, res) {
         console.log(req.body.publicidad);
         const publicidad = JSON.parse(req.body.publicidad);
         console.log(req.files)
