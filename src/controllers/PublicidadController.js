@@ -12,7 +12,8 @@ class PublicidadController {
 
     async create(req, res) {
         const registro = JSON.parse(req.body.publicidad);
-        registro.publicidad = upload(req.files.imagen, 'publicidad');
+        if (registro.tipo === 'image')
+            registro.publicidad = upload(req.files.imagen, 'publicidad');
         console.log(registro)
         res.json(await pool.query('INSERT INTO publicidad SET ?', [registro]));
     }
